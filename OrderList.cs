@@ -8,7 +8,7 @@ namespace Maktaba_Class_Library
 {
     public class OrderList: Datalist
     {
-        public OrderList() :base("Order", "Order_id")
+        public OrderList() :base("Orders", "Order_id")
         {}
 
         protected override void GenerateList()

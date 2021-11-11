@@ -103,6 +103,12 @@ namespace Maktaba_Class_Library
             reader = command.ExecuteReader();
             GenerateList();
         }
+        public virtual string PopulateTest()
+        {
+            con.Open();
+            command.CommandText = "SELECT * FROM " + table;
+            return command.CommandText;
+        }
         //can be used to find a book using one search critera
         public virtual void Filter(string field, string value)
         {

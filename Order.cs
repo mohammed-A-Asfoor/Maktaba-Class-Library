@@ -8,7 +8,7 @@ namespace Maktaba_Class_Library
 {
     public class Order :Item
     {
-        private string orderID;
+       
         private string orderData;
         private string totalPrice;
         private string customerID;
