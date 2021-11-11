@@ -110,8 +110,8 @@ namespace Maktaba_Class_Library
             command.Parameters.Clear();
             command.Parameters.AddWithValue("@field", field);
             command.Parameters.AddWithValue("@value", "'"+value+"'");
-             command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = '" + value+"'";
-            //command.CommandText = "SELECT * FROM " + table + " WHERE  @field = @value " ;
+             command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = '" + value+"'";//this works
+            //command.CommandText = "SELECT * FROM " + table + " WHERE  @field = @value " ; //this doesnt work
             reader = command.ExecuteReader();
             GenerateList();
 
