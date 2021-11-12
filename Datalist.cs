@@ -285,6 +285,38 @@ namespace Maktaba_Class_Library
             con.Close();
         }
 
+        public object checkUser(string column,  string value, string column1, string value1)
+        {
+            bool exisit = false;
+            con.Open();
+            int number;
+            //Add PArameters
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@column", column);
+            command.Parameters.AddWithValue("@value", value);
+            command.Parameters.AddWithValue("@column1", column1);
+            command.Parameters.AddWithValue("@value1", value1);
+            //creating SQL statment
+            command.CommandText = "SELECT COUNT(*) FROM " + table + " WHERE "+column+"= '"+value+"' AND "+ column + "= '" + value+"'";
+
+
+            // puting the value in a valrabile
+            number = (int)command.ExecuteScalar();
+            //chech if number = 0 or not 
+            if (number == 0)
+            {
+                exisit = false;
+
+            }
+            else
+            {
+                exisit = true;
+            }
+
+            return exisit;
+        }
+        
+
         //used to check if the forgin key is realted to another table before deleting
         public bool CheckChildRecord(string column, string value)
         {

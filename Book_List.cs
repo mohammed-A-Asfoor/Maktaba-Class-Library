@@ -8,6 +8,8 @@ namespace Maktaba_Class_Library
 {
    public class Book_List:ItemJoin
     {
+
+        private string quantity;
         public Book_List()
         {
 
@@ -16,6 +18,23 @@ namespace Maktaba_Class_Library
         {
 
         }
+
+        public string Order_id
+        {
+            get { return base.getID(); }
+            set { base.setID(value); }
+        }
+        public string Book_Itme_id
+        {
+            get { return base.getIdJoin(); }
+            set { base.setIdJoin(value); }
+        }
+        public string Quantity
+        {
+            get { return quantity; }
+            set { quantity = value; }
+        }
+
 
 
     }

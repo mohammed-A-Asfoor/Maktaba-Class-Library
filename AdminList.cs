@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maktaba_Class_Library
 {
-    class AdminList : Datalist
+   public  class AdminList : Datalist
     {
         public AdminList() :base("Admin", "Admin_ID")
         {

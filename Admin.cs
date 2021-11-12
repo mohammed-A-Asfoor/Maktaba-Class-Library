@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maktaba_Class_Library
 {
-    class Admin :Item
+   public  class Admin :Item
     {
         private string adminID;
         private string adminName;
