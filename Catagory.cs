@@ -19,7 +19,11 @@ namespace Maktaba_Class_Library
         {
 
         }
-
+        public string category_id
+        {
+            get { return base.getID(); }
+            set { base.setID(value); }
+        }
         public string catagory_name
         {
             get { return catagoryName; }
@@ -29,6 +33,10 @@ namespace Maktaba_Class_Library
         {
             get { return catagoryDesc; }
             set { catagoryDesc = value; }
+        }
+        public override string ToString()
+        {
+            return catagoryName;
         }
     }
 }

@@ -8,10 +8,9 @@ namespace Maktaba_Class_Library
 {
     public class CatagoryList:Datalist
     {
-        public CatagoryList() :base("category", "category")
-        {
-
-        }
+        public CatagoryList()
+            :base("category", "category_id")
+        { }
 
         protected override void GenerateList()
         {
@@ -23,8 +22,12 @@ namespace Maktaba_Class_Library
             {
                 catagory = new Catagory(Reader.GetValue(0).ToString());
                 base.SetValues(catagory);
+                List.Add(catagory);
                 AddDataTableRow(catagory);
             }
+            Reader.Close();
+            Con.Close();
+
         }
 
     }
