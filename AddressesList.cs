@@ -22,6 +22,7 @@ namespace Maktaba_Class_Library
             while (Reader.Read())
             {
                 addresses = new Addresses(Reader.GetValue(0).ToString());
+                List.Add(addresses);
                 base.SetValues(addresses);
                 AddDataTableRow(addresses);
 

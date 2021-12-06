@@ -18,6 +18,7 @@ namespace Maktaba_Class_Library
         {
             customer customer = new customer();
             SetDataTableColumns(customer);
+            getColumnName(customer);
             List.Clear();
 
             while (Reader.Read())
@@ -25,6 +26,7 @@ namespace Maktaba_Class_Library
                 customer = new customer(Reader.GetValue(0).ToString());
                 base.SetValues(customer);
                 List.Add(customer);
+                
                 AddDataTableRow(customer);
             }
             Reader.Close();

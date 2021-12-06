@@ -8,7 +8,7 @@ namespace Maktaba_Class_Library
 {
    public  class Admin :Item
     {
-        private string adminID;
+       
         private string adminName;
         private string adminPassword;
         private string adminEmail;

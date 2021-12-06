@@ -28,12 +28,12 @@ namespace Maktaba_Class_Library
             get { return base.getID(); }
             set { base.setID(value); }
         }
-        public string CustomerFname
+        public string Customer_fname
         {
             get { return customerFname; }
             set { this.customerFname = value; }
         }
-        public string CustomerLname
+        public string customer_lname
         {
             get { return customerLname; }
             set { this.customerLname = value; }
@@ -43,17 +43,17 @@ namespace Maktaba_Class_Library
             get { return customer_DOB; }
             set { this.customer_DOB = value; }
         }
-        public string Customer_Emial
+        public string Customer_Email
         {
             get { return customer_Email; }
             set { this.customer_Email = value; }
         }
-        public string CustomerPhone
+        public string Customer_Phone
         {
             get { return customerPhone; }
             set { this.customerPhone = value; }
         }
-        public string Customer_Password
+        public string Customer_password
         {
             get { return customer_Password; }
             set { this.customer_Password = value; }

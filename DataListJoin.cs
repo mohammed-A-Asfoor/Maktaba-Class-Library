@@ -81,5 +81,22 @@ namespace Maktaba_Class_Library
             }
             Con.Close();
         }
+        public void Deletespecial(ItemJoin item)
+        {
+            Con.Open();
+            Command.Parameters.Clear();
+            Command.Parameters.AddWithValue("@id", item.getID());
+            Command.Parameters.AddWithValue("@idJoin", item.getIdJoin());
+            Command.CommandText = "DELETE FROM " + Table + "WHERE " + IdFeild + " = @id";
+
+            try { Command.ExecuteNonQuery(); }
+            catch (SqlException ex)
+            {
+                item.setVaild(false);
+                item.setErrorMessage(ex.Message);
+
+            }
+            Con.Close();
+        }
     }
 }

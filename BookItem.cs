@@ -9,7 +9,7 @@ namespace Maktaba_Class_Library
     public class BookItem : Item
     {
         private string quantity;
-        private string publisher;
+        private string image;
         private string condition;
         private string adding_date;
         private string book_price;
@@ -34,16 +34,17 @@ namespace Maktaba_Class_Library
             get { return quantity; }
             set { quantity = value; }
         }
-        public string Publisher
-        {
-            get { return publisher; }
-            set { publisher = value; }
-        }
         public string Condition
         {
             get { return condition; }
             set { condition = value; }
         }
+        public string Image
+        {
+            get { return image; }
+            set { image = value; }
+        }
+        
         public string Adding_date
         {
             get { return adding_date; }

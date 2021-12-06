@@ -8,7 +8,6 @@ namespace Maktaba_Class_Library
 {
     public class Addresses:Item
     {
-        private string addressID;
         private string street;
         private string block;
         private string house;
@@ -59,6 +58,11 @@ namespace Maktaba_Class_Library
         {
             get { return customerID; }
             set { customerID = value; }
+        }
+
+        public override string ToString()
+        {
+            return base.getID() + " // House:" + house + " // Stree:" + street + " // Country:" + country;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Maktaba_Class_Library
 
 		private string book_Auther;
 		private string book_DOR;
+		private string publisher;
 		private string book_title;
 		private string catagoryID;
 
@@ -39,6 +40,11 @@ namespace Maktaba_Class_Library
             get { return book_title; }
 			set { book_title = value; }
         }
+		public string Publisher
+		{
+			get { return publisher; }
+			set { publisher = value; }
+		}
 		public string Date_Of_Release
         {
 			get { return book_DOR; }
@@ -49,7 +55,10 @@ namespace Maktaba_Class_Library
             get { return catagoryID; }
             set { catagoryID = value; }
         }
-
+		public override string ToString()
+		{
+			return getID();
+		}
 
 	}//end Book
 }
