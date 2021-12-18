@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,26 +30,31 @@ namespace Maktaba_Class_Library
             get { return base.getID(); }
             set { base.setID(value); }
         }
+        [Required]
         public string Street
         {
             get { return street; }
             set { street = value; }
         }
+        [Required]
         public string House
         {
             get { return house ; }
             set { house = value; }
         }
+        [Required]
         public string Block
         {
             get { return block; }
             set { block = value; }
         }
+        [Required]
         public string City
         {
             get { return city; }
             set { city = value; }
         }
+        [Required]
         public string Country
         {
             get { return country; }

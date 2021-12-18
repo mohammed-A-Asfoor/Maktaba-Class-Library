@@ -30,16 +30,17 @@ namespace Maktaba_Class_Library
             get { return base.getID(); }
 			set { base.setID(value); }
         }
+		public string Book_Title
+		{
+			get { return book_title; }
+			set { book_title = value; }
+		}
 		public string Book_Auther
         {
             get { return book_Auther; }
             set { book_Auther = value; }
         }
-		public string Book_Title
-        {
-            get { return book_title; }
-			set { book_title = value; }
-        }
+		
 		public string Publisher
 		{
 			get { return publisher; }

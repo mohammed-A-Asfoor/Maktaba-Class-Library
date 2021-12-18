@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -69,7 +70,7 @@ namespace Maktaba_Class_Library
             Command.Parameters.Clear();
             Command.Parameters.AddWithValue("@id", item.getID());
             Command.Parameters.AddWithValue("@idJoin", item.getIdJoin());
-            Command.CommandText = "DELETE FROM " + Table + "WHERE " + IdFeild + " = @id" +
+            Command.CommandText = "DELETE FROM " + Table + " WHERE " + IdFeild + " = @id" +
                 " AND " + idFieldJoin + " = @idjoin";
 
             try { Command.ExecuteNonQuery(); }
@@ -96,6 +97,15 @@ namespace Maktaba_Class_Library
                 item.setErrorMessage(ex.Message);
 
             }
+            Con.Close();
+        }
+        public void FilterMostPopular()
+        {
+            Con.Open();
+            Command.CommandText = "SELECT 0 as Order_id , Book_Itme_id, sum(quantity) as quantity From BookList group by Book_Itme_id ORDER BY quantity DESC; "; //this doesnt work
+            Reader = Command.ExecuteReader();
+            GenerateList();
+            Reader.Close();
             Con.Close();
         }
     }

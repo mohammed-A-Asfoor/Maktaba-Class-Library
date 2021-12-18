@@ -43,7 +43,7 @@ namespace Maktaba_Class_Library
             this.table = table;
             this.idFeild = idField;
             con =
-                new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=Maktaba;Integrated Security=True");
+                new SqlConnection("Server=tcp:maktaba.database.windows.net,1433;Initial Catalog=maktabaDatabase;Persist Security Info=False;User ID=superadmin;Password=TXhXEqKq5zcK2gE;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             command = con.CreateCommand();
             datatable = new DataTable();
             columnNames = new List<string>();
@@ -126,6 +126,7 @@ namespace Maktaba_Class_Library
             command.CommandText = "SELECT * FROM " + table;
             reader = command.ExecuteReader();
             GenerateList();
+            
             con.Close();
         }
         public virtual string PopulateTest(Item item)
@@ -144,12 +145,12 @@ namespace Maktaba_Class_Library
         {
             con.Open();
             command.Parameters.Clear();
-            command.Parameters.Add("@field", SqlDbType.NVarChar,50).Value=field;
+           // command.Parameters.Add("@field", SqlDbType.NVarChar,50).Value=field;
             //command.Parameters["@field"].Value = field;
-            command.Parameters.Add("@value", SqlDbType.NVarChar,50).Value=value;
+            //command.Parameters.Add("@value", SqlDbType.NVarChar,50).Value=value;
            // command.Parameters["@value"].Value = value;
             //command.Parameters.AddWithValue("@field", field);
-            //command.Parameters.AddWithValue("@value", value);
+            command.Parameters.AddWithValue("@value", value);
             //if(value == "or 1=1")
 
             //command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = " + value;//this works
@@ -159,6 +160,45 @@ namespace Maktaba_Class_Library
             reader.Close();
             con.Close();
         }
+        public void FilterJoin(String secondTable, string key ,String field, String value)
+        {
+
+            con.Open();
+          
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@Key", "'"+key+"'");
+            command.Parameters.AddWithValue("@value", value);
+            //if(value == "or 1=1")
+           
+            //command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = " + value;//this works
+            command.CommandText = "select * from " + table+" Inner Join "+secondTable+" On "+table+"."+key+" = "+secondTable+ "."+key+" where "+field+ " = "+value; //this doesnt work
+            reader = command.ExecuteReader();
+            GenerateList();
+            reader.Close();
+            con.Close();
+           // return command.CommandText;
+        }
+        public string FilterJoinFullSearch(String secondTable, string key, String field, String field1, String field2, String value)
+        {
+
+            con.Open();
+
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@Key", "'" + key + "'");
+            command.Parameters.AddWithValue("@value", value);
+            //if(value == "or 1=1")
+
+            //command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = " + value;//this works
+            command.CommandText = "select * from " + table + " Inner Join " + secondTable + " On " + table + "." + key + " = " + secondTable + "." + key + " where  CONTAINS((" + field + "," + field1 + "," + field2 + "), @value)"; //this doesnt work
+            reader = command.ExecuteReader();
+            GenerateList();
+
+            reader.Close();
+            con.Close();
+            return command.CommandText;
+            // return command.CommandText;
+        }
+
         public void FilterRange(String field, String value, String field1, String value1)
         {
             con.Open();
@@ -373,11 +413,11 @@ namespace Maktaba_Class_Library
             
         }
 
-        public object checkUser(string column,  string value, string column1, string value1)
+        public int checkUser(string column,  string value, string column1, string value1)
         {
-            bool exisit = false;
+           
             con.Open();
-            int number;
+            int custID=0;
             //Add PArameters
             command.Parameters.Clear();
             command.Parameters.AddWithValue("@column", column);
@@ -385,23 +425,22 @@ namespace Maktaba_Class_Library
             command.Parameters.AddWithValue("@column1", column1);
             command.Parameters.AddWithValue("@value1", value1);
             //creating SQL statment
-            command.CommandText = "SELECT COUNT(*) FROM " + table + " WHERE "+column+"= '"+value+"' AND "+ column + "= '" + value+"'";
+            command.CommandText = "SELECT CustomerID FROM " + table + " WHERE "+column+"= '"+value+"' AND "+ column1 + "= '" + value1+"'";
 
 
             // puting the value in a valrabile
-            number = (int)command.ExecuteScalar();
+            
             //chech if number = 0 or not 
-            if (number == 0)
+            if (command.ExecuteScalar()!= DBNull.Value )
             {
-                exisit = false;
+                custID = Convert.ToInt32(command.ExecuteScalar());
+
 
             }
-            else
-            {
-                exisit = true;
-            }
             con.Close();
-            return exisit;
+            return custID;
+           
+            
         }
         
 

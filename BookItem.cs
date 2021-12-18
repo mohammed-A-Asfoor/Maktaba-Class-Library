@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Maktaba_Class_Library
             get { return base.getID(); }
             set { base.setID(value); }
         }
+        
         public string Quantity
         {
             get { return quantity; }
