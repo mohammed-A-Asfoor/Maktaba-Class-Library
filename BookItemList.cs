@@ -21,10 +21,18 @@ namespace Maktaba_Class_Library
 
             while (Reader.Read())
             {
-                bookItem = new BookItem(Reader.GetValue(0).ToString());
-                base.SetValues(bookItem);
-                List.Add(bookItem);
-                AddDataTableRow(bookItem);
+                try
+                {
+                    bookItem = new BookItem(Reader.GetValue(0).ToString());
+                    base.SetValues(bookItem);
+                    List.Add(bookItem);
+                    AddDataTableRow(bookItem);
+                }catch(Exception ex)
+                {
+                    bookItem.setVaild(false);
+                    bookItem.setErrorMessage(ex.Message);
+                }
+                
             }
             Reader.Close();
             Con.Close();

@@ -14,15 +14,21 @@ namespace Maktaba_Class_Library
 
         protected override void GenerateList()
         {
+            //creating Catagory object
             Catagory catagory = new Catagory();
+            //setting the column names for DataTable
             SetDataTableColumns(catagory);
+            //clearing the list array
             List.Clear();
-
+            //while there is information
             while (Reader.Read())
-            {
+            {//getting the id from the table 
                 catagory = new Catagory(Reader.GetValue(0).ToString());
+                //setting the values
                 base.SetValues(catagory);
+                //adding the object to the lsit
                 List.Add(catagory);
+                //adding the values from the book object to the DataTable
                 AddDataTableRow(catagory);
             }
             Reader.Close();

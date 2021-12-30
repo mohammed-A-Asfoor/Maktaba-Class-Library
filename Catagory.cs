@@ -19,6 +19,7 @@ namespace Maktaba_Class_Library
         {
 
         }
+        
         public string category_id
         {
             get { return base.getID(); }

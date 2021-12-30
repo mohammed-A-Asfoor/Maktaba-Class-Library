@@ -12,23 +12,6 @@ namespace Maktaba_Class_Library
     public class Datalist
     {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         private string table;
         private SqlConnection con;
         private SqlCommand command;
@@ -43,7 +26,7 @@ namespace Maktaba_Class_Library
             this.table = table;
             this.idFeild = idField;
             con =
-                new SqlConnection("Server=tcp:maktaba.database.windows.net,1433;Initial Catalog=maktabaDatabase;Persist Security Info=False;User ID=superadmin;Password=TXhXEqKq5zcK2gE;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                new SqlConnection("Server=tcp:maktaba.database.windows.net,1433;Initial Catalog=maktabaDatabase;Persist Security Info=False;User ID=superadmin;Password=TXhXEqKq5zcK2gE;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;");
             command = con.CreateCommand();
             datatable = new DataTable();
             columnNames = new List<string>();
@@ -116,8 +99,18 @@ namespace Maktaba_Class_Library
             {
                 values[count] = property.GetValue(item).ToString();
                 count++;
+                Console.WriteLine("after" + datatable.Rows.Count);
             }
-            datatable.Rows.Add(values);
+            try
+            {
+                datatable.Rows.Add(values);
+                Console.WriteLine("after"+datatable.Rows.Count);
+            }catch(Exception ex)
+            {
+                item.setVaild(false);
+                item.setErrorMessage(ex.Message);
+            }
+            
         }
 
         public virtual void Populate()
@@ -145,16 +138,10 @@ namespace Maktaba_Class_Library
         {
             con.Open();
             command.Parameters.Clear();
-           // command.Parameters.Add("@field", SqlDbType.NVarChar,50).Value=field;
-            //command.Parameters["@field"].Value = field;
-            //command.Parameters.Add("@value", SqlDbType.NVarChar,50).Value=value;
-           // command.Parameters["@value"].Value = value;
-            //command.Parameters.AddWithValue("@field", field);
+           
             command.Parameters.AddWithValue("@value", value);
-            //if(value == "or 1=1")
-
-            //command.CommandText = "SELECT * FROM " + table + " WHERE " + field + " = " + value;//this works
-            command.CommandText = "SELECT * FROM " + table + " WHERE "+field+" = @value"; //this doesnt work
+            
+            command.CommandText = "SELECT * FROM " + table + " WHERE "+field+" = @value"; 
             reader = command.ExecuteReader();
             GenerateList();
             reader.Close();
@@ -307,6 +294,7 @@ namespace Maktaba_Class_Library
             }
             con.Close();
         }
+       
 
         /*builds an Add string from the Item Properties collection 
         and uses it to add a new Item to the database */
@@ -399,6 +387,17 @@ namespace Maktaba_Class_Library
             }
             con.Close();
         }
+        public void Delete()
+        {
+            con.Open();
+            command.Parameters.Clear();
+
+            command.CommandText = "DELETE FROM " + table;
+                
+             command.ExecuteNonQuery(); 
+           
+            con.Close();
+        }
 
         public void getColumnName(Item item)
         {
@@ -475,6 +474,36 @@ namespace Maktaba_Class_Library
             //return thr condition
             return exsist;
         }
+        public bool CheckChildRecord(string column, string value,string column1, string value1)
+        {
+            bool exsist = false;
+            //open Connection
+            con.Open();
+            int number;
+            //Add PArameters
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@column", column);
+            command.Parameters.AddWithValue("@value", value);
+            //creating SQL statment
+            command.CommandText = "SELECT COUNT(*) FROM " + table + " WHERE " + column + " = '" + value + "'"+" AND "+ column1 + " = '" + value1 + "'";
+
+
+            // puting the value in a valrabile
+            number = (int)command.ExecuteScalar();
+            //chech if number = 0 or not 
+            if (number == 0)
+            {
+                exsist = false;
+
+            }
+            else
+            {
+                exsist = true;
+            }
+            con.Close();
+            //return thr condition
+            return exsist;
+        }
         //getting the id from the last record whcih was added 
         public int MaxID()
         {
@@ -524,6 +553,19 @@ namespace Maktaba_Class_Library
             con.Close();
             return value;
         }
+        public Double TotalValue(string columnName, string columnName1, string value1, string columnName2, string value2)
+        {
+            double value = 0;
+            con.Open();
+            command.CommandText = "SELECT SUM(" + columnName + ") FROM " + table +
+                " WHERE " + columnName1 + " >= '" + value1 + "' AND " + columnName2 + " <= '" + value2 + "'";
+            if (command.ExecuteScalar() != DBNull.Value)
+            {
+                value = Convert.ToDouble(command.ExecuteScalar());
+            }
+            con.Close();
+            return value;
+        }
         //getting the total number of record for a certin table. for example: total number of customrs/orders
         public int totalCount(string columnName)
         {
@@ -551,6 +593,51 @@ namespace Maktaba_Class_Library
             con.Close();
             return total;
         }
+        public int totalCountSpecial(string columnName, string columnName1, string value1)
+        {
+            int total = 0;
+            con.Open();
+            command.CommandText = "SELECT  COUNT(distinct " + columnName + ") FROM " + table +
+                " WHERE " + columnName1 + " = '" + value1 + "'";
+            total = Convert.ToInt32(command.ExecuteScalar());
+            if (command.ExecuteScalar() != DBNull.Value)
+            {
+                total = Convert.ToInt32(command.ExecuteScalar());
+            }
+            con.Close();
+            return total;
+        }
+        public int totalCountSpecial(string columnName, string columnName1, string value1, string columnName2, string value2)
+        {
+            int total = 0;
+            con.Open();
+            command.CommandText = "SELECT COUNT(distinct " + columnName + ") FROM " + table +
+             " WHERE " + columnName1 + " >= '" + value1 + "' AND " + columnName2 + " <= '" + value2 + "'";
+            // command.CommandText = "SELECT COUNT(distinct " + columnName + ") FROM " + table;
+            total = Convert.ToInt32(command.ExecuteScalar());
+            if (command.ExecuteScalar() != DBNull.Value)
+            {
+                total = Convert.ToInt32(command.ExecuteScalar());
+            }
+            con.Close();
+            return total;
+        }
+        public string test(string columnName, string columnName1, string value1, string columnName2, string value2)
+        {
+            int total = 0;
+            con.Open();
+            command.CommandText = "SELECT COUNT(distinct " + columnName + ") FROM " + table +
+               " WHERE " + columnName1 + " = '" + value1 + "' AND " + columnName2 + " ='" + value2 + "'";
+            // command.CommandText = "SELECT COUNT(distinct " + columnName + ") FROM " + table;
+            total = Convert.ToInt32(command.ExecuteScalar());
+            if (command.ExecuteScalar() != DBNull.Value)
+            {
+                total = Convert.ToInt32(command.ExecuteScalar());
+            }
+            con.Close();
+            return command.CommandText;
+        }
+
         public int totalCountGraterThen(string columnName, string columnName1, string value1)
         {
             int total = 0;
